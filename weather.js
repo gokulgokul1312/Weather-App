@@ -1,35 +1,39 @@
-var inputValue = document.querySelector(".inputValue");
-var button = document.querySelector(".button");
-var cityName = document.querySelector(".cityName");
-var country = document.querySelector(".country");
-var desc = document.querySelector(".desc");
-var temp = document.querySelector(".temp");
+var inputValue = document.getElementById('city');
+var button = document.getElementById('btn');
+var cityName = document.getElementById('cityName');
+var country = document.getElementById('country');
+var temp = document.getElementById('temp');
+var desc = document.getElementById('desc');
+var wind = document.getElementById('wind');
+var error = document.getElementById('error');
+var img = document.getElementById('img');
 
-button.addEventListener("click", function () {
-  fetch(
-    "https://api.openweathermap.org/data/2.5/weather?q=" +
-      inputValue.value +
-      "&appid=539804192249ba20abafd922066cc117"
-  )
+button.addEventListener("click",function(){
+    fetch(
+        "https://api.openweathermap.org/data/2.5/weather?q=" +  inputValue.value + "&appid=539804192249ba20abafd922066cc117"
+    )
     .then((res) => res.json())
     .then((data) => {
-      console.log(data);
-      var nameValue = data["name"];
-      var counValue = data["sys"]["country"];
-      var tempValue = data["main"]["temp"];
-      var descValue = data["weather"][0]["description"];
-
-      cityName.innerHTML = nameValue;
-      temp.innerHTML = Math.round((tempValue - 273.15) * 100) / 100 + `°C`;
-      desc.innerHTML = descValue;
-      country.innerHTML = counValue;
+        console.log(data);
+        nameValue = data["name"]
+        cityName.innerHTML = nameValue;
+        country.innerHTML = data["sys"]["country"];
+        tempValue = data["main"]["temp"];
+        temp.innerHTML = Math.round((tempValue - 273.15) * 100) / 100 + `°C`;
+        desc.innerHTML = data["weather"][0]["description"];
+        wind.innerHTML = data["wind"]["speed"] + ` S`;
+        img.src=`https://openweathermap.org/img/wn/${data.weather[0].icon}@2x.png`
     })
     .catch((err) => {
-      alert("Wrong city name!");
-      inputValue.value = "";
-      cityName.innerHTML = "";
-      country.innerHTML = "";
-      desc.innerHTML = "";
-      temp.innerHTML = "";
-    });
-});
+        // alert("wrong city name");
+        error.innerHTML = "Please enter correct city name."
+        if(inputValue != nameValue){
+            cityName.innerHTML = "City";
+            country.innerHTML = "Country";
+            temp.innerHTML = "0";
+            desc.innerHTML = "0";
+            wind.innerHTML = "0";
+            img.src = "https://openweathermap.org/img/wn/10d@2x.png";
+        }
+    })
+})
