@@ -5,7 +5,6 @@ var country = document.getElementById('country');
 var temp = document.getElementById('temp');
 var desc = document.getElementById('desc');
 var wind = document.getElementById('wind');
-var error = document.getElementById('error');
 var img = document.getElementById('img');
 
 button.addEventListener("click",function(){
@@ -25,15 +24,12 @@ button.addEventListener("click",function(){
         img.src=`https://openweathermap.org/img/wn/${data.weather[0].icon}@2x.png`
     })
     .catch((err) => {
-        // alert("wrong city name");
-        error.innerHTML = "Please enter correct city name."
-        if(inputValue != nameValue){
+        alert("Please enter correct city name");
             cityName.innerHTML = "City";
             country.innerHTML = "Country";
             temp.innerHTML = "0";
             desc.innerHTML = "0";
             wind.innerHTML = "0";
             img.src = "https://openweathermap.org/img/wn/10d@2x.png";
-        }
     })
 })
